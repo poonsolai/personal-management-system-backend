@@ -17,8 +17,8 @@ employeeDASHroute.get('/:name/:email',async (req, res)=>{
 
 employeeDASHroute.get('/:name', async (req, res)=>{
     const {name} = req.params;
-    let task = await Task.find({assign_to:name});
-    let leave = await Leave.find({employee:name});
+    let task = await Task.find({assign_to:name.toLowerCase()});
+    let leave = await Leave.find({employee:name.toLowerCase()});
     if(leave.length == 0 || task.length == 0){
         return res.send({success:true, message:"is empty", tasks:task, leaves:leave});
     }

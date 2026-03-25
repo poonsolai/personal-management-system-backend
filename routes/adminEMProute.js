@@ -22,17 +22,19 @@ adminEMProute.get('/user/:dept',async (req, res)=>{
 });
 
 adminEMProute.post('/user',async (req, res)=>{
-    
-    let val = req.body
-
-    let user = await User.find({email:val.email, name:val.name});
+    let datu = new Date().toLocaleDateString();
+    let val = req.body;
+    val.name = val.name.toLowerCase();
+    val.date = datu;
+    let user = await User.find({email:val.email, name:val.name.toLowerCase()});
     if(user.length == 0){
         return res.send({success:false,message:"This Employee Is Not Authorized or check employee name and mail"});
     }
-    let user2 = await Employee.find({email:val.email, name:val.name});
+    let user2 = await Employee.find({email:val.email, name:val.name.toLowerCase()});
     if(!user2.length == 0){
         return res.send({success:false,message:"This Employee Is Already Added"});
     }
+
     let data = await Employee.create(val);
     res.send({success:true,message:"Employee add Successfully", data:data});
 })

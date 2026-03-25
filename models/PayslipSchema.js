@@ -27,7 +27,7 @@ const PayslipSchema = mongoose.Schema({
         type:Number,    
     },
     date:{
-        type:Date
+        type:String
     },
     status:{
         type:String

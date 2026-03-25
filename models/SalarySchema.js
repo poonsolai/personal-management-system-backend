@@ -2,7 +2,7 @@ import mongoose from "mongoose";
 
 const SalarySchema = mongoose.Schema({
     date:{
-        type:Date
+        type:String
     },
     is_generate:{
         type:Boolean,

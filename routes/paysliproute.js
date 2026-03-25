@@ -46,7 +46,7 @@ paysliproute.get('/createslip' , async (req, res)=>{
             //
             employee.map(async (e)=>{
                 let payslip = await Payslip.create({
-                    emp_name : e.name,
+                    emp_name : e.name.toLowerCase(),
                     date : datu,
                     month: months[month] +" " + year ,
                     basic: e.salary <= 20000 ? `${Number(e.salary) - lessamt1}` : e.salary <= 50000 ? `${Number(e.salary) - lessamt2}` : `${Number(e.salary) - lessamt3}`  ,

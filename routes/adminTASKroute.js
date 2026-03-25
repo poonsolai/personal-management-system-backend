@@ -35,12 +35,13 @@ adminTASKroute.post('/new', async (req, res)=>{
     if(emp.length == 0){
         return  res.send({success:false,message:"This Employee not available"});
     }
-    
+    let datu = new Date().toLocaleDateString();
     let task = await Task.create({
         task : val.task,
         assign_to : val.assign_to,
         status : val.status || "Pending",
-        deadline : val.deadline
+        deadline : val.deadline,
+        date : datu
     })
     
     res.send({success:true,message:"New Task Added"})
@@ -49,7 +50,7 @@ adminTASKroute.post('/new', async (req, res)=>{
 adminTASKroute.put('/:id',async (req, res)=>{
 
     let val = req.body;
-
+    val.assign_to = val.assign_to.toLowerCase();
     let data = await Task.updateOne({_id:req.params.id},{$set:val});
 
     res.send({success:true,message:"Update Successfully", data:data});

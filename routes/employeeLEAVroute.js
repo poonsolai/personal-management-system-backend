@@ -13,8 +13,9 @@ employeeLEAVroute.get('/:name', async (req, res)=>{
 
 employeeLEAVroute.post('/', async (req, res)=>{
     const val = req.body;
-    const date = new Date().toString();
-    val.date = date;
+    let datu = new Date().toLocaleDateString();
+    val.date = datu;
+    val.employee = val.employee.toLowerCase();
     const leave = await Leave.create(val);
     res.send({success:true, message:"new leave request send successfully",data:val}); 
 });

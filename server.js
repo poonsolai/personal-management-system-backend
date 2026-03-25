@@ -23,7 +23,7 @@ ConnectDB(); // database connect panna
 
 app.use(cors(
     {
-        origin : "http://localhost:5173", // frontend url 
+        origin : "https://personal-management-system-backend.onrender.com", // frontend url 
         credentials : true  // credentional acept
     }
 )); // cors origin issue va ignore panna
