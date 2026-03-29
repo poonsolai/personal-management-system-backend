@@ -23,7 +23,8 @@ ConnectDB(); // database connect panna
 
 app.use(cors(
     {
-        origin : "https://spms-innovixus.vercel.app", // frontend url 
+        // origin : "https://spms-innovixus.vercel.app", // frontend url 
+        origin : "http://localhost:5173", // frontend url 
         credentials : true  // credentional acept
     }
 )); // cors origin issue va ignore panna

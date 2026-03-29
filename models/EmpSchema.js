@@ -23,7 +23,7 @@ const emp_schema =mongoose.Schema({
         type:String
     },
     salary:{
-        type:Number,
+        type:String,
         trim:true
     }
 });

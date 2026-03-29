@@ -8,7 +8,7 @@ const paysliproute = Router();
 let year = new Date().getFullYear();
 let months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'Augest', 'September', 'October', 'November', 'December'];
 let month = new Date().getMonth();
-let datu = new Date().toString();
+let datu = new Date().toDateString();
 let date = new Date().getDate();
 
 
@@ -30,11 +30,11 @@ paysliproute.get('/status', async (req, res)=>{
 paysliproute.get('/createslip' , async (req, res)=>{
             
             let employee = await Employee.find();
-            let lessamt1 = 2900;// lessthen 20000 
-            let lessamt2 = 6900;// lessthen 50000
-            let lessamt3 = 11900;// greaterthen 50000
+            let lessamt1 = 12900;// lessthen 40000 
+            let lessamt2 = 16900;// lessthen 70000
+            let lessamt3 = 21900;// greaterthen 70000
 
-            if(date != 23){
+            if(date != 5){
                 return res.send({success:false, message:"Only Allowed on 'Day-5'"});
             }
 
@@ -46,13 +46,13 @@ paysliproute.get('/createslip' , async (req, res)=>{
             //
             employee.map(async (e)=>{
                 let payslip = await Payslip.create({
-                    emp_name : e.name.toLowerCase(),
+                    emp_name : e.name?.toLowerCase(),
                     date : datu,
                     month: months[month] +" " + year ,
-                    basic: e.salary <= 20000 ? `${Number(e.salary) - lessamt1}` : e.salary <= 50000 ? `${Number(e.salary) - lessamt2}` : `${Number(e.salary) - lessamt3}`  ,
-                    hra: e.salary <= 20000 ? "1700" : e.salary <= 50000 ? "3700" : "6700"  ,
-                    other: e.salary <= 20000 ? "600" : e.salary <= 50000 ? "1600" : "2600"  ,
-                    deduct: e.salary <= 20000 ? "600" : e.salary <= 50000 ? "1600" : "2600"  ,
+                    basic: e.salary <= 40000 ? `${Number(e.salary) - lessamt1}` : e.salary <= 70000 ? `${Number(e.salary) - lessamt2}` : `${Number(e.salary) - lessamt3}`  ,
+                    hra: e.salary <= 40000 ? "6450" : e.salary <= 70000 ? "8450" : "10950"  ,
+                    other: e.salary <= 40000 ? "3225" : e.salary <= 70000 ? "4225" : "5475"  ,
+                    deduct: e.salary <= 40000 ? "3225" : e.salary <= 70000 ? "4225" : "5475"  ,
                     net: e.salary,
                     status:"Pending"
                 });
@@ -68,10 +68,10 @@ paysliproute.get('/createslip' , async (req, res)=>{
 paysliproute.get('/:name' , async (req, res)=>{
     const {name} = req.params;
     const paybil = await Payslip.find({emp_name:name});
-    const salary = await Employee.findOne({name : name})
-    if(paybil.length == 0){
-        return res.send({success:false, message:'is empty'});
-    }
+    const salary = await Employee.findOne({name : name});
+    // if(paybil.length == 0){
+    //     return res.send({success:false, message:'is empty'});
+    // }
     res.send({success:true, message:"your payslips", payslip:paybil, totalsalry:salary.salary});
 });
 

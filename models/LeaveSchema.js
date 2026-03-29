@@ -30,6 +30,9 @@ const LeaveSchema = mongoose.Schema({
     date:{
         type:String
     },
+    time:{
+        type:String
+    }
 });
 
  const Leave = mongoose.model('leaves', LeaveSchema);

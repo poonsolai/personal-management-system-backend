@@ -5,17 +5,19 @@ const employeeLEAVroute = Router();
 employeeLEAVroute.get('/:name', async (req, res)=>{
     let name = req.params.name;
     let val =await Leave.find({employee:name});
-    if(val.length == 0){
-        return res.send({success:false, message:" is empty "});
-    }
+    // if(val.length == 0){
+    //     return res.send({success:false, message:" is empty "});
+    // }
     res.send({success:true, message:"succesfully got", leaves:val});
 });
 
 employeeLEAVroute.post('/', async (req, res)=>{
     const val = req.body;
-    let datu = new Date().toLocaleDateString();
+    let datu = new Date().toDateString();
+    let time = new Date().toLocaleTimeString();
     val.date = datu;
-    val.employee = val.employee.toLowerCase();
+    val.time = time;
+    val.employee = val.employee?.toLowerCase();
     const leave = await Leave.create(val);
     res.send({success:true, message:"new leave request send successfully",data:val}); 
 });

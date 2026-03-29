@@ -35,7 +35,7 @@ adminTASKroute.post('/new', async (req, res)=>{
     if(emp.length == 0){
         return  res.send({success:false,message:"This Employee not available"});
     }
-    let datu = new Date().toLocaleDateString();
+    let datu = new Date().toDateString();
     let task = await Task.create({
         task : val.task,
         assign_to : val.assign_to,

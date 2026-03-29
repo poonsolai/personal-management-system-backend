@@ -36,19 +36,19 @@ authRouter.post('/signup',async (req, res)=>{
     password = hassPassword(password);
     // database la new user create useing create method  : alternative method also iruku  -- new User({}) !imp use save() --
     let user = await User.create({
-        name : name.toLowerCase(),
+        name : name?.toLowerCase(),
         email : email,
         password : password,
         gender : gender,
         role : Role ,
-        date : new Date().toLocaleDateString(),
+        date : new Date().toDateString(),
     });
     if(Role == "employee"){
         let emp = await Employee.create({
-            name : name.toLowerCase(),
+            name : name?.toLowerCase(),
             email : email,
             role : null,
-            date : new Date().toLocaleDateString(),
+            date : new Date().toDateString(),
             salary: null,
             department : null
         })

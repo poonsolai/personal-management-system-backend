@@ -1,7 +1,7 @@
 import { Router } from "express";
 import Employee from "../models/EmpSchema.js";
 import User from '../models/userSchema.js'; // auth'
-
+import getSalary from '../utils/salaryFunction.js'
 const adminEMProute = Router();
 
 
@@ -22,15 +22,16 @@ adminEMProute.get('/user/:dept',async (req, res)=>{
 });
 
 adminEMProute.post('/user',async (req, res)=>{
-    let datu = new Date().toLocaleDateString();
+    let datu = new Date().toDateString();
     let val = req.body;
     val.name = val.name.toLowerCase();
     val.date = datu;
-    let user = await User.find({email:val.email, name:val.name.toLowerCase()});
+    val.salary = getSalary(val.department, val.role);
+    let user = await User.find({email:val.email, name:val.name?.toLowerCase()});
     if(user.length == 0){
         return res.send({success:false,message:"This Employee Is Not Authorized or check employee name and mail"});
     }
-    let user2 = await Employee.find({email:val.email, name:val.name.toLowerCase()});
+    let user2 = await Employee.find({email:val.email, name:val.name?.toLowerCase()});
     if(!user2.length == 0){
         return res.send({success:false,message:"This Employee Is Already Added"});
     }
@@ -41,6 +42,7 @@ adminEMProute.post('/user',async (req, res)=>{
 adminEMProute.put('/user/:id',async (req, res)=>{
 
     let val = req.body;
+    val.salary = getSalary(val.department, val.role);
     let data = await Employee.updateOne({_id:req.params.id},{$set:val});
     res.send({success:true,message:"Update Successfully", data:data});
 
